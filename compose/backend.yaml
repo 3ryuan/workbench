@@ -56,14 +56,18 @@ services:
   ranger:
     build:
       context: ../app/peatio
+    restart: always
     depends_on:
       - rabbitmq
     env_file:
-      - ../config/ranger.env
+      - ../config/peatio.env
+    environment:
+      RANGER_HOST: 0.0.0.0
+      RANGER_PORT: 8081
     labels:
       traefik.enable: true
       traefik.frontend.rule: 'Host: ws.ranger.wb.local'
-      traefik.port: 8080
+      traefik.port: 8081
     command: bash -c "bundle exec peatio service start ranger"
 
   mailcatcher:
